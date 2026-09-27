@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Md Nezamuddin | Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Ambient animated glow background */
+        body {
+            background-color: #090d16;
+            color: #f1f5f9;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism panel styling */
+        .glass-card {
+            background: rgba(18, 24, 38, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 
+                        0 0 20px -5px rgba(56, 189, 248, 0.1);
+        }
+
+        .glass-card-hover {
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card-hover:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.35);
+            box-shadow: 0 16px 35px -10px rgba(99, 102, 241, 0.25),
+                        0 0 25px 0 rgba(6, 182, 212, 0.15);
+        }
+
+        /* Glowing Avatar Halo Ring */
+        .avatar-glow {
+            position: relative;
+        }
+        .avatar-glow::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6, #ec4899);
+            z-index: 0;
+            animation: spinGlow 8s linear infinite;
+            filter: blur(4px);
+        }
+
+        @keyframes spinGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Interactive Canvas covering screen for touch/click bubbles */
+        #bubbleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body class="selection:bg-cyan-500/30 selection:text-cyan-200">
+
+    <!-- Interactive Touch/Click Bubbles Canvas -->
+    <canvas id="bubbleCanvas"></canvas>
+
+    <!-- Ambient colorful floating lights -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute -top-32 -left-32 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute top-1/2 -right-32 w-96 h-96 bg-purple-600/15 rounded-full blur-3xl animate-pulse" style="animation-duration: 6s;"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse" style="animation-duration: 8s;"></div>
+    </div>
+
+    <!-- Top Navigation -->
+    <nav class="relative z-10 w-full max-w-5xl mx-auto px-5 py-6 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <span class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-cyan-500/30">
+                MN
+            </span>
+            <span class="text-xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-cyan-400">
+                MD NEZAMUDDIN
+            </span>
+        </div>
+        <div class="hidden sm:flex items-center space-x-6 text-sm font-medium text-slate-300">
+            <a href="#about" class="hover:text-cyan-400 transition">About</a>
+            <a href="#details" class="hover:text-cyan-400 transition">Info</a>
+            <a href="#skills" class="hover:text-cyan-400 transition">Talents</a>
+            <a href="#hobbies" class="hover:text-cyan-400 transition">Hobbies</a>
+            <a href="#connect" class="px-4 py-2 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20 transition">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-4 pb-20 space-y-8">
+
+        <!-- Hero Card with Picture -->
+        <section id="about" class="glass-card rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
+                
+                <!-- Avatar with glowing border & quick picker -->
+                <div class="flex flex-col items-center gap-3">
+                    <div class="avatar-glow relative w-44 h-44 sm:w-52 sm:h-52 rounded-full p-[4px]">
+                        <img id="profileDisplay" 
+                             src="portfolio.png" 
+                             alt="Md Nezamuddin" 
+                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80';"
+                             class="relative z-10 w-full h-full object-cover rounded-full shadow-2xl bg-slate-900 border-2 border-white/20">
+                    </div>
+
+                    <!-- Instant Photo Selector in case local name differs -->
+                    <label for="imageUploadInput" class="cursor-pointer text-xs font-medium px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 text-slate-300 flex items-center gap-2 transition active:scale-95">
+                        <i class="fa-solid fa-camera text-cyan-400"></i>
+                        <span>Change Photo</span>
+                        <input type="file" id="imageUploadInput" accept="image/*" class="hidden">
+                    </label>
+                </div>
+
+                <!-- Bio Info -->
+                <div class="flex-1 space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-semibold uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                        Creative Student & Achiever
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+                        Md Nezamuddin
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-cyan-200 font-medium">
+                        Student | Multi-Talented Boy | Creative Mind
+                    </p>
+
+                    <p class="text-sm sm:text-base text-slate-300 leading-relaxed pt-1">
+                        Main <span class="text-white font-medium">Class 8</span> ka vidyarthi hoon, padhai aur nayi skills sikhne ka shaukeen. Har kaam me dedication aur creativity ke saath aage badhna meri pehchaan hai.
+                    </p>
+
+                    <!-- Bubble interaction hint -->
+                    <div class="pt-2 text-xs text-slate-400 flex items-center justify-center md:justify-start gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-pink-400 animate-bounce"></i>
+                        <span>Screen par kahin bhi <strong>touch ya click</strong> karein aur bubbles udayein!</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Personal Details Cards -->
+        <section id="details" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+            <!-- School & Education Card -->
+            <div class="glass-card glass-card-hover rounded-2xl p-6 relative overflow-hidden">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white text-xl mb-4 shadow-md shadow-blue-500/30">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Education</h3>
+                <div class="space-y-2 text-sm text-slate-300">
+                    <p><span class="text-slate-400 text-xs block">School:</span> 
+                        <strong class="text-white">Urdu Madhya Vidhalay</strong>, Jale tola garri
+                    </p>
+                    <p><span class="text-slate-400 text-xs block">Standard:</span> 
+                        <span class="inline-block px-2.5 py-0.5 rounded-md bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30">Class 8</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Family Card -->
+            <div class="glass-card glass-card-hover rounded-2xl p-6 relative overflow-hidden">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center text-white text-xl mb-4 shadow-md shadow-purple-500/30">
+                    <i class="fa-solid fa-people-roof"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Family</h3>
+                <div class="space-y-2 text-sm text-slate-300">
+                    <p><span class="text-slate-400 text-xs block">Father's Name:</span> 
+                        <strong class="text-white">MD UMAR</strong>
+                    </p>
+                    <p><span class="text-slate-400 text-xs block">Members:</span> 
+                        Parents, 2 Sisters & 1 Brother
+                    </p>
+                </div>
+            </div>
+
+            <!-- Address Card -->
+            <div class="glass-card glass-card-hover rounded-2xl p-6 relative overflow-hidden">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-pink-600 to-rose-500 flex items-center justify-center text-white text-xl mb-4 shadow-md shadow-pink-500/30">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Address</h3>
+                <div class="space-y-2 text-sm text-slate-300">
+                    <p><span class="text-slate-400 text-xs block">Village / Post / Block:</span> 
+                        Garri, Jale, Darbhanga, Bihar
+                    </p>
+                    <p><span class="text-slate-400 text-xs block">Pincode:</span> 
+                        <span class="font-mono text-pink-300 font-bold bg-pink-500/10 px-2 py-0.5 rounded border border-pink-500/30">847303</span>
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Talents & Skills -->
+        <section id="skills" class="glass-card rounded-2xl p-6 sm:p-8">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-3">
+                <i class="fa-solid fa-star text-yellow-400"></i>
+                Multi-Talented Qualities
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="bg-white/5 hover:bg-white/10 transition p-3.5 rounded-xl border border-white/5 text-center">
+                    <i class="fa-solid fa-book-open-reader text-cyan-400 text-2xl mb-2"></i>
+                    <h4 class="text-sm font-semibold text-white">Smart Student</h4>
+                    <p class="text-xs text-slate-400 mt-1">Class 8 Topper Mindset</p>
+                </div>
+                <div class="bg-white/5 hover:bg-white/10 transition p-3.5 rounded-xl border border-white/5 text-center">
+                    <i class="fa-solid fa-lightbulb text-yellow-400 text-2xl mb-2"></i>
+                    <h4 class="text-sm font-semibold text-white">Fast Learner</h4>
+                    <p class="text-xs text-slate-400 mt-1">Curious & Creative</p>
+                </div>
+                <div class="bg-white/5 hover:bg-white/10 transition p-3.5 rounded-xl border border-white/5 text-center">
+                    <i class="fa-solid fa-dumbbell text-emerald-400 text-2xl mb-2"></i>
+                    <h4 class="text-sm font-semibold text-white">Sports & Games</h4>
+                    <p class="text-xs text-slate-400 mt-1">Active & Energetic</p>
+                </div>
+                <div class="bg-white/5 hover:bg-white/10 transition p-3.5 rounded-xl border border-white/5 text-center">
+                    <i class="fa-solid fa-heart text-pink-400 text-2xl mb-2"></i>
+                    <h4 class="text-sm font-semibold text-white">Helpful & Kind</h4>
+                    <p class="text-xs text-slate-400 mt-1">Loved by Family & Friends</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hobbies & Favorite Things Section -->
+        <section id="hobbies" class="glass-card rounded-2xl p-6 sm:p-8 space-y-6">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+                <h2 class="text-xl font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-fire text-orange-400"></i>
+                    Hobbies & Favorite Things
+                </h2>
+                <span class="text-xs text-slate-400 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+                    Things Nezam Loves ❤️
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                
+                <!-- Cricket Card -->
+                <div class="glass-card-hover bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl flex items-start gap-4">
+                    <div class="w-11 h-11 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl shrink-0 border border-emerald-500/30">
+                        <i class="fa-solid fa-baseball-bat-ball"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white flex items-center gap-2">
+                            Cricket
+                            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-mono">Passion</span>
+                        </h4>
+                        <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                            Cricket khelna aur dekhna pasand hai. Dosto ke sath batting aur bowling dono me full energetic!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Music Card -->
+                <div class="glass-card-hover bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl flex items-start gap-4">
+                    <div class="w-11 h-11 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl shrink-0 border border-purple-500/30">
+                        <i class="fa-solid fa-headphones"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white flex items-center gap-2">
+                            Music
+                            <span class="text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-mono">Vibes</span>
+                        </h4>
+                        <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                            Relax hone aur mood fresh karne ke liye soothing aur trending gaane sunna pasand hai.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Favorite Food Card -->
+                <div class="glass-card-hover bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl flex items-start gap-4">
+                    <div class="w-11 h-11 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl shrink-0 border border-amber-500/30">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white flex items-center gap-2">
+                            Favorite Food
+                            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-mono">Foodie</span>
+                        </h4>
+                        <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                            Laziz Biryani, tasty snacks aur maa ke haath ka swadisht khana sabse zyada pasand hai.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Travelling Card -->
+                <div class="glass-card-hover bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl flex items-start gap-4">
+                    <div class="w-11 h-11 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl shrink-0 border border-cyan-500/30">
+                        <i class="fa-solid fa-plane-departure"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white flex items-center gap-2">
+                            Travelling
+                            <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded font-mono">Explore</span>
+                        </h4>
+                        <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                            Nayi-nayi jagahon par ghumna, nayi cheezein dekhna aur kudrat ko explore karna achha lagta hai.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Video Games & Tech -->
+                <div class="glass-card-hover bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl flex items-start gap-4">
+                    <div class="w-11 h-11 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center text-xl shrink-0 border border-pink-500/30">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white flex items-center gap-2">
+                            Gaming & Tech
+                            <span class="text-[10px] bg-pink-500/20 text-pink-300 px-1.5 py-0.5 rounded font-mono">Skills</span>
+                        </h4>
+                        <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                            Mobile games khelna, puzzle games solve karna aur digital nayi cheezein sikhna.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Creative & Fitness -->
+                <div class="glass-card-hover bg-slate-800/40 border border-slate-700/60 p-4 rounded-xl flex items-start gap-4">
+                    <div class="w-11 h-11 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl shrink-0 border border-blue-500/30">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-base font-semibold text-white flex items-center gap-2">
+                            Outdoor Fun
+                            <span class="text-[10px] bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded font-mono">Active</span>
+                        </h4>
+                        <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                            Dosto ke sath outdoor games khelna, cycling karna aur har competition me participate karna.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Social Connect Section -->
+        <section id="connect" class="glass-card rounded-2xl p-6 sm:p-8 text-center space-y-6">
+            <div class="max-w-md mx-auto space-y-2">
+                <h2 class="text-2xl font-bold text-white">Connect With Me</h2>
+                <p class="text-sm text-slate-400">Social media par judne ke liye niche diye gaye buttons par click karein:</p>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <!-- Instagram Button -->
+                <a href="https://www.instagram.com/nezamu_09k" target="_blank" rel="noopener noreferrer" 
+                   class="group relative inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 text-white font-semibold text-sm shadow-lg shadow-pink-500/25 hover:shadow-pink-500/40 hover:scale-105 active:scale-95 transition-all">
+                    <i class="fa-brands fa-instagram text-xl"></i>
+                    <span>Instagram: <span class="font-normal opacity-90">@nezamu_09k</span></span>
+                </a>
+
+                <!-- Snapchat Button -->
+                <a href="https://www.snapchat.com/add/nezamu_x0" target="_blank" rel="noopener noreferrer" 
+                   class="group relative inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-[#FFFC00] text-black font-semibold text-sm shadow-lg shadow-yellow-400/20 hover:shadow-yellow-400/35 hover:scale-105 active:scale-95 transition-all">
+                    <i class="fa-brands fa-snapchat text-xl"></i>
+                    <span>Snapchat: <span class="font-normal opacity-85">nezamu_x0</span></span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center pt-8 text-xs text-slate-500 space-y-1">
+            <p>&copy; 2026 Md Nezamuddin. All Rights Reserved.</p>
+            <p>Garri, Jale, Darbhanga, Bihar - 847303</p>
+        </footer>
+
+    </main>
+
+    <!-- Interactive Touch/Click Bubble Engine -->
+    <script>
+        const canvas = document.getElementById('bubbleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        // Bubble particle system
+        const bubbles = [];
+        const colors = [
+            'rgba(6, 182, 212, ',   // cyan
+            'rgba(147, 51, 234, ',  // purple
+            'rgba(236, 72, 153, ',  // pink
+            'rgba(59, 130, 246, ',  // blue
+            'rgba(250, 204, 21, '   // gold
+        ];
+
+        class Bubble {
+            constructor(x, y, isExplosion = false) {
+                this.x = x;
+                this.y = y;
+                this.radius = isExplosion ? (Math.random() * 18 + 8) : (Math.random() * 25 + 10);
+                this.colorBase = colors[Math.floor(Math.random() * colors.length)];
+                this.alpha = isExplosion ? 0.9 : 0.6;
+                this.speedX = isExplosion ? (Math.random() - 0.5) * 8 : (Math.random() - 0.5) * 2;
+                this.speedY = isExplosion ? (Math.random() - 0.8) * 8 : -(Math.random() * 2 + 1);
+                this.wobble = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = Math.random() * 0.05 + 0.02;
+                this.decay = isExplosion ? Math.random() * 0.015 + 0.008 : Math.random() * 0.004 + 0.002;
+            }
+
+            update() {
+                this.x += this.speedX + Math.sin(this.wobble) * 0.8;
+                this.y += this.speedY;
+                this.wobble += this.wobbleSpeed;
+                this.alpha -= this.decay;
+                if (this.radius > 2) this.radius -= 0.05;
+            }
+
+            draw() {
+                if (this.alpha <= 0) return;
+
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, Math.max(0.1, this.radius), 0, Math.PI * 2);
+
+                // Bubble Gradient for 3D glassy bubble look
+                const gradient = ctx.createRadialGradient(
+                    this.x - this.radius * 0.3,
+                    this.y - this.radius * 0.3,
+                    this.radius * 0.1,
+                    this.x,
+                    this.y,
+                    this.radius
+                );
+                gradient.addColorStop(0, 'rgba(255, 255, 255, ' + this.alpha + ')');
+                gradient.addColorStop(0.3, this.colorBase + (this.alpha * 0.7) + ')');
+                gradient.addColorStop(0.8, this.colorBase + (this.alpha * 0.3) + ')');
+                gradient.addColorStop(1, 'rgba(255, 255, 255, ' + (this.alpha * 0.15) + ')');
+
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Bubble shiny highlight ring
+                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = 'rgba(255, 255, 255, ' + (this.alpha * 0.6) + ')';
+                ctx.stroke();
+
+                // Sparkle reflection
+                ctx.beginPath();
+                ctx.arc(this.x - this.radius * 0.35, this.y - this.radius * 0.35, Math.max(0.1, this.radius * 0.2), 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, ' + (this.alpha * 0.85) + ')';
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        // Spawn burst on user interaction
+        function createBubbleBurst(x, y, count = 12) {
+            for (let i = 0; i < count; i++) {
+                bubbles.push(new Bubble(x, y, true));
+            }
+        }
+
+        // Touch and Click Event Listeners
+        window.addEventListener('click', (e) => {
+            createBubbleBurst(e.clientX, e.clientY, 15);
+        });
+
+        window.addEventListener('touchstart', (e) => {
+            for (let i = 0; i < e.touches.length; i++) {
+                const touch = e.touches[i];
+                createBubbleBurst(touch.clientX, touch.clientY, 14);
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+            if (Math.random() < 0.4) {
+                const touch = e.touches[0];
+                bubbles.push(new Bubble(touch.clientX, touch.clientY, false));
+            }
+        }, { passive: true });
+
+        // Continuous ambient floating bubbles
+        let ambientTimer = 0;
+        function spawnAmbient() {
+            ambientTimer++;
+            if (ambientTimer % 18 === 0 && bubbles.length < 80) {
+                const randomX = Math.random() * width;
+                bubbles.push(new Bubble(randomX, height + 20, false));
+            }
+        }
+
+        // Main Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            spawnAmbient();
+
+            for (let i = bubbles.length - 1; i >= 0; i--) {
+                bubbles[i].update();
+                bubbles[i].draw();
+
+                if (bubbles[i].alpha <= 0 || bubbles[i].y < -40) {
+                    bubbles.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = function() {
+            animate();
+        };
+
+        // Instant Image Upload logic (Preview from gallery/files)
+        const imageUploadInput = document.getElementById('imageUploadInput');
+        const profileDisplay = document.getElementById('profileDisplay');
+
+        imageUploadInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    profileDisplay.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
